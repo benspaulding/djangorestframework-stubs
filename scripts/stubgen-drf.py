@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from mypy.stubgen import generate_stubs, parse_options
 
 from scripts.git_helpers import checkout_target_tag
-from scripts.paths import DRF_SOURCE_DIRECTORY
+from scripts.paths import DRF_SOURCE_DIRECTORY, STUBGEN_TARGET_DIRECTORY
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -13,5 +13,6 @@ if __name__ == "__main__":
     if DRF_SOURCE_DIRECTORY.exists():
         shutil.rmtree(DRF_SOURCE_DIRECTORY)
     checkout_target_tag(args.drf_version)
-    stubgen_options = parse_options([f"{DRF_SOURCE_DIRECTORY}", "-o=stubgen"])
+    drf_root = DRF_SOURCE_DIRECTORY / "rest_framework"
+    stubgen_options = parse_options([f"{drf_root}", f"-o={STUBGEN_TARGET_DIRECTORY}"])
     generate_stubs(stubgen_options)

@@ -83,7 +83,7 @@ python ./scripts/typecheck_tests.py
 You can also optionally specify a specific version tag to test against, e.g.
 
 ```bash
-python ./scripts/typecheck_tests.py --drf_version 3.12.1
+python ./scripts/typecheck_tests.py --drf_version 3.14.0
 ```
 
 ### Generating Stubs using Stubgen
@@ -98,7 +98,7 @@ python ./scripts/stubgen-drf.py
 You can also pass an optional version tag, e.g.
 
 ```bash
-python ./scripts/stubgen-drf.py --drf_version 3.12.1
+python ./scripts/stubgen-drf.py --drf_version 3.14.0
 ```
 
 The output for this is a gitignored folder called "stubgen" in the repo's root.
