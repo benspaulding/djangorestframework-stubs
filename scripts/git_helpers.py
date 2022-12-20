@@ -1,5 +1,5 @@
 import shutil
-from typing import Optional
+from typing import Optional, Union
 
 from git.remote import RemoteProgress
 from git.repo import Repo
@@ -11,7 +11,9 @@ class ProgressPrinter(RemoteProgress):
     def line_dropped(self, line: str) -> None:
         print(line)
 
-    def update(self, op_code, cur_count, max_count=None, message=""):
+    def update(
+        self, op_code: int, cur_count: Union[str, float], max_count: Union[str, float, None] = None, message: str = ""
+    ) -> None:
         print(self._cur_line)
 
 

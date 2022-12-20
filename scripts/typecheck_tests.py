@@ -5,12 +5,14 @@ import sys
 from argparse import ArgumentParser
 from collections import defaultdict
 from distutils import dir_util, spawn
-from typing import Dict, List, Pattern, Union
+from typing import DefaultDict, List, Pattern, Union
 
 from scripts.git_helpers import checkout_target_tag
 from scripts.paths import DRF_SOURCE_DIRECTORY, PROJECT_DIRECTORY, STUBS_DIRECTORY
 
-IGNORED_MODULES = []
+_DictToSearch = DefaultDict[str, DefaultDict[Union[str, Pattern[str]], int]]
+
+IGNORED_MODULES: list[str] = []
 MOCK_OBJECTS = [
     "MockQueryset",
     "MockRequest",
@@ -231,7 +233,7 @@ IGNORED_ERRORS = {
 }
 
 
-def get_unused_ignores(ignored_message_freq: Dict[str, Dict[Union[str, Pattern], int]]) -> List[str]:
+def get_unused_ignores(ignored_message_freq: _DictToSearch) -> List[str]:
     unused_ignores = []
     for root_key, patterns in IGNORED_ERRORS.items():
         for pattern in patterns:
@@ -242,7 +244,7 @@ def get_unused_ignores(ignored_message_freq: Dict[str, Dict[Union[str, Pattern],
     return unused_ignores
 
 
-def is_pattern_fits(pattern: Union[Pattern, str], line: str):
+def is_pattern_fits(pattern: Union[Pattern[str], str], line: str) -> bool:
     if isinstance(pattern, Pattern):
         if pattern.search(line):
             return True
@@ -252,7 +254,7 @@ def is_pattern_fits(pattern: Union[Pattern, str], line: str):
     return False
 
 
-def is_ignored(line: str, filename: str, ignored_message_dict: Dict[str, Dict[str, int]]) -> bool:
+def is_ignored(line: str, filename: str, ignored_message_dict: _DictToSearch) -> bool:
     if "runtests" in line or filename in IGNORED_MODULES:
         return True
     for pattern in IGNORED_ERRORS["__common__"]:
@@ -299,13 +301,13 @@ if __name__ == "__main__":
         mypy_executable = spawn.find_executable("mypy")
         mypy_argv = [mypy_executable, *mypy_options]
         completed = subprocess.run(
-            mypy_argv,
+            mypy_argv,  # type: ignore
             env={"PYTHONPATH": str(PROJECT_DIRECTORY)},
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
         )
         output = completed.stdout.decode()
-        ignored_message_freqs = defaultdict(lambda: defaultdict(int))
+        ignored_message_freqs: _DictToSearch = defaultdict(lambda: defaultdict(int))
         sorted_lines = sorted(output.splitlines())
         for line in sorted_lines:
             try:
