@@ -79,7 +79,6 @@ IGNORED_ERRORS = {
         'Incompatible types in assignment (expression has type "AsView[GenericView]", variable has type "AsView[Callable[[HttpRequest], Any]]")',  # noqa: E501
         'Argument "patterns" to "SchemaGenerator" has incompatible type "List[object]"',
         'Argument 1 to "field_to_schema" has incompatible type "object"; expected "Field[Any, Any, Any, Any]"',
-        'Argument "help_text" to "CharField" has incompatible type "_StrPromise"',
         '"Module rest_framework.schemas.coreapi" does not explicitly export attribute "coreapi"',
     ],
     "browsable_api": [

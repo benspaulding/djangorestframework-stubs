@@ -4,6 +4,7 @@ from typing import Any, Generic, TypeVar
 from _typeshed import Self
 
 from django.db.models import Manager, Model, QuerySet
+from django.utils.functional import _StrOrPromise
 from rest_framework.fields import Field, Option
 from rest_framework.request import Request
 from rest_framework.validators import Validator
@@ -34,25 +35,25 @@ _PT = TypeVar("_PT")  # Primitive Type
 class RelatedField(Generic[_MT, _DT, _PT], Field[_MT, _DT, _PT, Any]):
     queryset: QuerySet[_MT] | Manager[_MT] | None
     html_cutoff: int | None
-    html_cutoff_text: str | None
+    html_cutoff_text: _StrOrPromise | None
     def __init__(
         self,
         many: bool = ...,
         allow_empty: bool = ...,
         queryset: QuerySet[_MT] | Manager[_MT] | None = ...,
         html_cutoff: int | None = ...,
-        html_cutoff_text: str = ...,
+        html_cutoff_text: _StrOrPromise = ...,
         read_only: bool = ...,
         write_only: bool = ...,
         required: bool = ...,
         default: Any = ...,
         initial: Any = ...,
         source: Callable | str = ...,
-        label: str | None = ...,
-        help_text: str = ...,
+        label: _StrOrPromise | None = ...,
+        help_text: _StrOrPromise = ...,
         allow_null: bool = ...,
         validators: Sequence[Validator[_MT]] | None = ...,
-        error_messages: dict[str, str] | None = ...,
+        error_messages: dict[str, _StrOrPromise] | None = ...,
         style: dict[str, str] | None = ...,
     ): ...
     # mypy doesn't accept the typing below, although its accurate to what this class is doing, hence the ignore
@@ -80,18 +81,18 @@ class PrimaryKeyRelatedField(RelatedField[_MT, _MT, Any]):
         allow_empty: bool = ...,
         queryset: QuerySet[_MT] | Manager[_MT] | None = ...,
         html_cutoff: int | None = ...,
-        html_cutoff_text: str = ...,
+        html_cutoff_text: _StrOrPromise = ...,
         read_only: bool = ...,
         write_only: bool = ...,
         required: bool = ...,
         default: Any = ...,
         initial: Any = ...,
         source: Callable | str = ...,
-        label: str | None = ...,
-        help_text: str = ...,
+        label: _StrOrPromise | None = ...,
+        help_text: _StrOrPromise = ...,
         allow_null: bool = ...,
         validators: Sequence[Validator[_MT]] | None = ...,
-        error_messages: dict[str, str] | None = ...,
+        error_messages: dict[str, _StrOrPromise] | None = ...,
         style: dict[str, str] | None = ...,
         pk_field: str | Field | None = ...,
     ): ...
@@ -108,18 +109,18 @@ class HyperlinkedRelatedField(RelatedField[_MT, str, Hyperlink]):
         allow_empty: bool = ...,
         queryset: QuerySet[_MT] | Manager[_MT] | None = ...,
         html_cutoff: int | None = ...,
-        html_cutoff_text: str = ...,
+        html_cutoff_text: _StrOrPromise = ...,
         read_only: bool = ...,
         write_only: bool = ...,
         required: bool = ...,
         default: Any = ...,
         initial: Any = ...,
         source: Callable | str = ...,
-        label: str | None = ...,
-        help_text: str = ...,
+        label: _StrOrPromise | None = ...,
+        help_text: _StrOrPromise = ...,
         allow_null: bool = ...,
         validators: Sequence[Validator[_MT]] | None = ...,
-        error_messages: dict[str, str] | None = ...,
+        error_messages: dict[str, _StrOrPromise] | None = ...,
         style: dict[str, str] | None = ...,
         view_name: str | None = ...,
         lookup_field: str | None = ...,
@@ -139,18 +140,18 @@ class SlugRelatedField(RelatedField[_MT, str, str]):
         allow_empty: bool = ...,
         queryset: QuerySet[_MT] | Manager[_MT] | None = ...,
         html_cutoff: int | None = ...,
-        html_cutoff_text: str = ...,
+        html_cutoff_text: _StrOrPromise = ...,
         read_only: bool = ...,
         write_only: bool = ...,
         required: bool = ...,
         default: _DT = ...,
         initial: _MT | Callable[[Any], _MT] = ...,
         source: Callable | str = ...,
-        label: str | None = ...,
-        help_text: str = ...,
+        label: _StrOrPromise | None = ...,
+        help_text: _StrOrPromise = ...,
         allow_null: bool = ...,
         validators: Sequence[Validator[_MT]] | None = ...,
-        error_messages: dict[str, str] | None = ...,
+        error_messages: dict[str, _StrOrPromise] | None = ...,
         style: dict[str, str] | None = ...,
         slug_field: str | None = ...,
     ): ...
@@ -160,7 +161,7 @@ class SlugRelatedField(RelatedField[_MT, str, str]):
 class ManyRelatedField(Field[Sequence[Any], Sequence[Any], list[Any], Any]):
     default_empty_html: list[object]
     html_cutoff: int | None
-    html_cutoff_text: str | None
+    html_cutoff_text: _StrOrPromise | None
     child_relation: RelatedField
     allow_empty: bool
     def __init__(
@@ -171,10 +172,10 @@ class ManyRelatedField(Field[Sequence[Any], Sequence[Any], list[Any], Any]):
         default: Sequence[Any] = ...,
         initial: Sequence[Any] | Callable[[Any], Sequence[Any]] = ...,
         source: Callable | str = ...,
-        label: str | None = ...,
-        help_text: str | None = ...,
+        label: _StrOrPromise | None = ...,
+        help_text: _StrOrPromise | None = ...,
         style: dict[str, str] | None = ...,
-        error_messages: dict[str, str] | None = ...,
+        error_messages: dict[str, _StrOrPromise] | None = ...,
         validators: Sequence[Validator[Sequence[Any]]] | None = ...,
         allow_null: bool = ...,
         child_relation: RelatedField = ...,
