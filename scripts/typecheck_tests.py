@@ -189,7 +189,7 @@ IGNORED_ERRORS = {
     "test_serializer_nested.py": [
         '(expression has type "NestedSerializer", base class "Field" defined the type as "bool")',
         "self.Serializer",
-        '(expression has type "NonRelationalPersonDataSerializer", base class "Serializer" defined the type as "ReturnDict")',  # noqa: E501
+        '(expression has type "NonRelationalPersonDataSerializer", base class "Serializer" defined the type as "ReturnDict[Any, Any]")',  # noqa: E501
     ],
     "test_settings.py": [
         'Argument 1 to "APISettings" has incompatible type "Dict[str, int]"; expected "Optional[DefaultsSettings]'

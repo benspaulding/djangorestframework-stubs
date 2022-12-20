@@ -1,18 +1,22 @@
 from collections import OrderedDict
 from collections.abc import Iterator, MutableMapping
-from typing import Any
+from typing import Any, TypeVar
 
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.fields import Field
 from rest_framework.serializers import BaseSerializer
 
-class ReturnDict(OrderedDict):
+_KT = TypeVar("_KT")
+_VT = TypeVar("_VT")
+_T = TypeVar("_T")
+
+class ReturnDict(OrderedDict[_KT, _VT]):
     serializer: BaseSerializer
     def __init__(self, serializer: BaseSerializer = ..., *args, **kwargs): ...
-    def copy(self) -> ReturnDict: ...
+    def copy(self) -> ReturnDict[_KT, _VT]: ...
     def __reduce__(self) -> tuple[dict, tuple[dict]]: ...
 
-class ReturnList(list):
+class ReturnList(list[_T]):
     serializer: BaseSerializer
     def __init__(self, serializer: BaseSerializer = ..., *args, **kwargs): ...
     def __reduce__(self) -> tuple[dict, tuple[dict]]: ...
