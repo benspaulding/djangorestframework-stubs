@@ -1,7 +1,8 @@
-from pathlib import Path
+import shutil
 from typing import Optional
 
-from git import RemoteProgress, Repo
+from git.remote import RemoteProgress
+from git.repo import Repo
 
 from scripts.paths import DRF_SOURCE_DIRECTORY
 
@@ -14,17 +15,14 @@ class ProgressPrinter(RemoteProgress):
         print(self._cur_line)
 
 
-def checkout_target_tag(drf_version: Optional[str]) -> Path:
-    if not DRF_SOURCE_DIRECTORY.exists():
-        DRF_SOURCE_DIRECTORY.mkdir(exist_ok=True, parents=False)
-        repository = Repo.clone_from(
-            "https://github.com/encode/django-rest-framework.git",
-            DRF_SOURCE_DIRECTORY,
-            progress=ProgressPrinter(),
-            branch="master",
-            depth=100,
-        )
-    else:
-        repository = Repo(DRF_SOURCE_DIRECTORY)
-        repository.remote("origin").pull("master", progress=ProgressPrinter(), depth=100)
-    repository.git.checkout(drf_version or "master")
+def checkout_target_tag(drf_version: Optional[str]) -> None:
+    if DRF_SOURCE_DIRECTORY.exists():
+        shutil.rmtree(DRF_SOURCE_DIRECTORY)
+    DRF_SOURCE_DIRECTORY.mkdir(exist_ok=True, parents=False)
+    Repo.clone_from(
+        "https://github.com/encode/django-rest-framework.git",
+        DRF_SOURCE_DIRECTORY,
+        progress=ProgressPrinter(),  # type: ignore
+        branch=drf_version or "master",
+        depth=100,
+    )
